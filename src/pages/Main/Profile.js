@@ -5,14 +5,18 @@ import UpdatePost from '../../components/UpdatePost';
 import MyTweet from '../../components/MyTweet';
 
 const Profile = () => {
-    const [toggle, setToggle] = useState(false)
     const [activitys, setActivitys] = useState([])
 
-    useEffect(() => {
+    const fetchDate = () => {
         fetch('http://localhost:5000/tweets')
             .then(res => res.json())
-            .then(data => setActivitys(data))
+            .then(data => setActivitys(data.reverse()))
+    }
+
+    useEffect(() => {
+        fetchDate()
     }, [])
+
 
 
     return (
@@ -36,7 +40,11 @@ const Profile = () => {
                     {
                         activitys.map((activity) => {
                             return (
-                                <MyTweet activity={activity} key={activity._id}></MyTweet>
+                                <MyTweet
+                                    key={activity._id}
+                                    activity={activity}
+                                    fetchDate={fetchDate}
+                                ></MyTweet>
 
                             )
                         })

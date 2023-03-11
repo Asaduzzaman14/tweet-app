@@ -1,15 +1,48 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import UpdatePost from './UpdatePost';
+import swal from "sweetalert";
 
-const MyTweet = ({ activity }) => {
+const MyTweet = ({ activity, fetchDate }) => {
     const [toggle, setToggle] = useState(true)
     const [activitys, setActivitys] = useState([])
 
-    const handelDelete = () => {
 
+    const handleDeleteTweet = (id) => {
+        swal({
+            text: "Are you sure, you want to delete this banner?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                axios
+                    .delete(`http://localhost:5000/deleteTweet/${id}`)
+                    .then((res) => {
+                        if (res.status === 200) {
+                            fetchDate()
+                            swal({
+                                text: res.data.message,
+                                icon: "success",
+                                button: "OK!",
+                                className: "modal_class_success",
+                            });
 
-    }
+                        }
+                    })
+                    .catch((error) => {
+                        swal({
+                            title: "Attention",
+                            text: error.response.data.message,
+                            icon: "warning",
+                            button: "OK!",
+                            className: "modal_class_success",
+                        });
+                    });
+            }
+        });
+    };
 
 
     return (
@@ -30,7 +63,7 @@ const MyTweet = ({ activity }) => {
                                 <label htmlFor="my-modal-1" className='' >
                                     <li className='bg-gray-700 hover:bg-slate-800 rounded-sm cursor-pointer mb-1 p-1'>EDIT</li>
                                 </label>
-                                <li onClick={() => handelDelete(activity._id)} className='bg-gray-700 hover:bg-slate-800 rounded-sm cursor-pointer  p-1'>DELETE</li>
+                                <li onClick={() => handleDeleteTweet(activity._id)} className='bg-gray-700 hover:bg-slate-800 rounded-sm cursor-pointer  p-1'>DELETE</li>
                             </ul>
                         </div>}
 
