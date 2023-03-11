@@ -18,12 +18,12 @@ const Main = () => {
                     <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere eligendi quam quasi recusandae eaque omnis exercitationem</p>
                 </div>
 
-                <div className={`overflow-auto ${path == '/login' || path == '/register' ? 'mx-auto' : ' w-1/2'} `}>
+                <div className={`overflow-auto ${path == '/login' || path == '/register' || path == '/profile' ? 'mx-auto' : ' w-1/2'} `}>
                     <Outlet />
                 </div>
 
                 <div className={`
-                ${path == '/login' || path == '/register' ? 'hidden' : ' '}
+                ${path == '/login' || path == '/register' || path == '/profile' ? 'hidden' : ' '}
                 w-3/12 border border-white sticky  top-20 left-0  rounded-lg  border-black h-80 p-2 `}>                    <h2>Overview</h2>
                     <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere eligendi quam quasi recusandae eaque omnis exercitationem</p>
                 </div>
