@@ -1,17 +1,67 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
+import { BiLike } from 'react-icons/bi';
+import { AiTwotoneLike } from 'react-icons/ai';
 import UpdatePost from './UpdatePost';
 import swal from "sweetalert";
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from '../firebase/firebase.config';
 
 const MyTweet = ({ activity, fetchDate }) => {
     const [toggle, setToggle] = useState(true)
-    const [activitys, setActivitys] = useState([])
+    const [user] = useAuthState(auth)
+
+
+    // const removeLike = (id) => {
+    //     let allLike = activity?.likes?.filter((like) => like !== user?.email)
+    //     console.log(allLike, 'All Like');
+    //     const email = {
+    //         email: allLike
+    //     }
+
+    //     fetch(`http://localhost:5000/like/${id}`, {
+    //         "method": "PUT",
+    //         headers: {
+    //             'Content-type': 'application/json',
+    //         },
+    //         body: JSON.stringify(email)
+    //     })
+    //         .then(res => {
+    //             if (res.status === 200) {
+    //                 fetchDate()
+    //             }
+    //         })
+
+    // }
+
+
+
+
+    const addLike = (id) => {
+        const email = {
+            email: user?.email
+        }
+
+        fetch(`http://localhost:5000/like/${id}`, {
+            "method": "PUT",
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(email)
+        })
+            .then(res => {
+                if (res.status === 200) {
+                    fetchDate()
+                }
+            })
+
+    }
 
 
     const handleDeleteTweet = (id) => {
         swal({
-            text: "Are you sure, you want to delete this banner?",
+            text: "Are you sure, you want to delete this Post?",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -76,11 +126,17 @@ const MyTweet = ({ activity, fetchDate }) => {
                 <hr className='mt-5' />
 
                 <div className="card-actions mt-4 justify-end">
-                    <button className="btn ">Like</button>
+
+                    {activity?.likes?.find((like) => like == user?.email) ?
+                        <button className="btn "><AiTwotoneLike className='text-xl mr-1 text-red-500' />{activity?.likes?.length}</button>
+                        :
+                        <button onClick={() => addLike(activity._id)} className="btn "><BiLike className='text-xl mr-1' /> {activity?.likes?.length}</button>
+                    }
                     <button className="btn ">Comment</button>
                     <button className="btn ">Report</button>
                 </div>
             </div>
+
             <UpdatePost activity={activity}></UpdatePost>
 
         </div>

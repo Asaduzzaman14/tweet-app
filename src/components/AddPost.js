@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link } from 'react-router-dom';
 import profile from '../assets/profile.jpg'
@@ -6,13 +6,22 @@ import auth from '../firebase/firebase.config';
 
 const AddPost = () => {
     const [user] = useAuthState(auth)
+    const [selectedImage, setSelectedImage] = useState()
 
     const handelFormSubmit = (e) => {
         e.preventDefault();
+        // const formData = new FormData();
+        // let desc = e.target.description.value;
+
+        // formData.append("img", selectedImage);
+        // formData.append("desc", e.target.description.value);
+
 
         const newTweet = {
             desc: e.target.description.value,
-            email: user.email
+            email: user.email,
+            img: selectedImage,
+            likes: []
 
         }
         console.log(newTweet);
@@ -47,7 +56,7 @@ const AddPost = () => {
                 <hr className='my-3' />
                 <div className='flex justify-between'>
                     <div htmlFor="my-modal-1" className='hover:bg-slate-600 text-xl px-3 text-gray-300 cursor-pointer p-2 rounded-lg'>Video</div>
-                    <div className='hover:bg-slate-600 text-xl px-3 text-gray-300 cursor-pointer p-2 rounded-lg'>Photo</div>
+                    <label htmlFor="my-modal-1" className='hover:bg-slate-600 text-xl px-3 text-gray-300 cursor-pointer p-2 rounded-lg'>Photo</label>
                     <label htmlFor="my-modal-1" className='hover:bg-slate-600 text-xl px-3 text-gray-300 cursor-pointer p-2 rounded-lg'>Activity</label>
                 </div>
             </div>
@@ -58,11 +67,29 @@ const AddPost = () => {
             <div className="modal">
                 <div className="modal-box pt-14  relative">
                     <hr className='pt-5' />
+                    {selectedImage && (
+                        <img
+                            style={{
+                                width: "250px",
+                                height: "250px",
+                                // height: "auto",
+                                marginBottom: "10px",
+                            }}
+                            src={URL.createObjectURL(selectedImage)}
+                            alt=""
+                        />
+                    )}
                     <label htmlFor="my-modal-1" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                     <form onSubmit={handelFormSubmit}>
                         <textarea className='min-w-full max-h-32 p-2 bg-slate-800' name="description" id="" required></textarea>
 
+                        <input
+                            type="file"
+                            name='img'
+                            onChange={(e) => setSelectedImage(e.target.files[0])}
+                            accept=".png,.jpeg,.jpg"
 
+                        />
                         <div className='text-end mt-2'>
                             <button className='btn px-7  text-white'>Post</button>
                         </div>

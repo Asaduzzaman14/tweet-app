@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AddPost from '../../components/AddPost';
 import profile from '../../assets/profile.jpg'
+import MyTweet from '../../components/MyTweet';
 
 const Home = () => {
+
+    const [allPosts, setAllPosts] = useState([])
+
+    const fetchDate = () => {
+        fetch('http://localhost:5000/tweets')
+            .then(res => res.json())
+            .then(data => setAllPosts(data.reverse()))
+    }
+
+    useEffect(() => {
+        fetchDate()
+    }, [])
+
+
     return (
         <div>
             <AddPost />
 
 
-            <div className="card rounded-md bg-base-100 mt-10 shadow-xl">
+            <div className="w-10/12 mx-auto card rounded-md bg-base-100 mt-10 shadow-xl">
                 <figure><img src={profile} alt="profile" /></figure>
 
                 <div className="p-2">
@@ -20,13 +35,25 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+            <div >
+                <div className="mt-2 text-2xl">ALL POSTS</div>
+                <div className='w-10/12 mx-auto'>
+                    {
+                        allPosts.map((activity) => {
+                            return (
+                                <MyTweet
+                                    key={activity._id}
+                                    activity={activity}
+                                    fetchDate={fetchDate}
+                                ></MyTweet>
 
-            <p className='mt-20'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit exercitationem ipsa nisi praesentium inventore excepturi expedita, voluptatem iusto dignissimos dicta nihil possimus, corporis aperiam aliquid neque iure laborum. Consequuntur, blanditiis est quod laudantium vero quibusdam rerum consectetur id porro error!</p>
-            <p className='mt-20'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit exercitationem ipsa nisi praesentium inventore excepturi expedita, voluptatem iusto dignissimos dicta nihil possimus, corporis aperiam aliquid neque iure laborum. Consequuntur, blanditiis est quod laudantium vero quibusdam rerum consectetur id porro error!</p>
-            <p className='mt-20'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit exercitationem ipsa nisi praesentium inventore excepturi expedita, voluptatem iusto dignissimos dicta nihil possimus, corporis aperiam aliquid neque iure laborum. Consequuntur, blanditiis est quod laudantium vero quibusdam rerum consectetur id porro error!</p>
+                            )
+                        })
+                    }
+                </div>
+            </div>
 
-            <p className='mt-20'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum ut explicabo, officiis porro error saepe debitis dicta vero voluptate quasi.</p>
-            <p className='mt-20'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum ut explicabo, officiis porro error saepe debitis dicta vero voluptate quasi.</p>
+
             <p className='mt-20'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum ut explicabo, officiis porro error saepe debitis dicta vero voluptate quasi.</p>
         </div>
     );

@@ -3,7 +3,7 @@ import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWith
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import auth from "../../firebase/firebase.config";
-// import useToken from '../../hooks/useToken';
+import useToken from '../../hooks/useToken';
 import { FaEye } from 'react-icons/fa';
 import { AiTwotoneEyeInvisible } from 'react-icons/ai';
 import Loading from '../../components/Loading';
@@ -15,8 +15,9 @@ const Login = () => {
     const [signInWithGoogle, googleUser, Googleloading, GoogleError] = useSignInWithGoogle(auth);
     const [signInWithEmailAndPassword, user, loading, error,] = useSignInWithEmailAndPassword(auth);
     const { register, formState: { errors }, handleSubmit, getValues } = useForm();
-    // const [token] = useToken(user || googleUser)
+    const [token] = useToken(user || googleUser)
     const emailvalue = getValues("email");
+    console.log(token);
 
     const [passwordVisivility, setPasswordVisivility] = useState(false)
     const [show, setShow] = useState(false)
@@ -29,19 +30,20 @@ const Login = () => {
     let from = location.state?.from?.pathname || "/";
 
     useEffect(() => {
-        if (user) {
+        if (token) {
 
             navigate(from, { replace: true });
         }
 
-    }, [user, from, navigate])
+    }, [token, from, navigate])
+
     // useEffect(() => {
-    //     if (token) {
+    //     if (user) {
 
     //         navigate(from, { replace: true });
     //     }
 
-    // }, [token, from, navigate])
+    // }, [user, from, navigate])
 
 
     if (loading || Googleloading) {
@@ -67,14 +69,8 @@ const Login = () => {
                 <div className="card-body ">
                     <h2 className="text-center font-bold text-2xl">LOGIN</h2>
 
-
                     {/*  form  */}
-
                     <form onSubmit={handleSubmit(onSubmit)}>
-
-
-
-
 
                         <div className="form-control w-full max-w-xs">
                             <label className="label">

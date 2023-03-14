@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 const useToken = user => {
 
-    // console.log(user);
+    console.log(user);
     const [token, setToken] = useState('');
 
     useEffect(() => {
@@ -24,12 +24,12 @@ const useToken = user => {
                 body: JSON.stringify(currentuser)
             })
                 .then(res => res.json())
-            // .then(data => {
-            //     // console.log('data inside useToken', data);
-            //     const accessToken = data.token;
-            //     localStorage.setItem('accessToken', accessToken);
-            //     setToken(accessToken);
-            // })
+                .then(data => {
+                    // console.log('data inside useToken', data);
+                    const accessToken = data.token;
+                    localStorage.setItem('accessToken', accessToken);
+                    setToken(accessToken);
+                })
         }
 
     }, [user]);
