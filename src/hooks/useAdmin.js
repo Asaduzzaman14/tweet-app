@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 
 const useAdmin = (user) => {
-    // console.log('i am from useadmin', user);
+    console.log('i am from useadmin', user);
     const [isAdmin, setIsAdmin] = useState(false)
     const [adminLoading, setAdminLoading] = useState(true)
 

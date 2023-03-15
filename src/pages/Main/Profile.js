@@ -3,12 +3,17 @@ import image from '../../assets/profile.jpg'
 import { BsThreeDots } from 'react-icons/bs'
 import UpdatePost from '../../components/UpdatePost';
 import MyTweet from '../../components/MyTweet';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from '../../firebase/firebase.config';
 
 const Profile = () => {
     const [activitys, setActivitys] = useState([])
+    console.log(activitys);
+    const [user] = useAuthState(auth)
+
 
     const fetchDate = () => {
-        fetch('http://localhost:5000/tweets')
+        fetch(`http://localhost:5000/tweets/${user?.email}`)
             .then(res => res.json())
             .then(data => setActivitys(data.reverse()))
     }
@@ -33,7 +38,11 @@ const Profile = () => {
                     </div>
 
                 </div>
-                <hr className='border mt-24' />
+                <div className='mt-24'>
+
+                    <h2 className='text-2xl pb-4'>{user.email}</h2>
+                    <hr className='border ' />
+                </div>
 
                 <div>
                     <div className="mt-2 text-2xl">MY POSTS</div>

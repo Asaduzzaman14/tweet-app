@@ -7,34 +7,16 @@ import UpdatePost from './UpdatePost';
 import swal from "sweetalert";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../firebase/firebase.config';
+import { useLocation } from 'react-router-dom';
+import useAdmin from '../hooks/useAdmin';
 
 const MyTweet = ({ activity, fetchDate }) => {
     const [toggle, setToggle] = useState(true)
     const [user] = useAuthState(auth)
+    const [admin] = useAdmin(user)
 
-
-    // const removeLike = (id) => {
-    //     let allLike = activity?.likes?.filter((like) => like !== user?.email)
-    //     console.log(allLike, 'All Like');
-    //     const email = {
-    //         email: allLike
-    //     }
-
-    //     fetch(`http://localhost:5000/like/${id}`, {
-    //         "method": "PUT",
-    //         headers: {
-    //             'Content-type': 'application/json',
-    //         },
-    //         body: JSON.stringify(email)
-    //     })
-    //         .then(res => {
-    //             if (res.status === 200) {
-    //                 fetchDate()
-    //             }
-    //         })
-
-    // }
-
+    const location = useLocation()
+    const path = location.pathname
 
 
 
@@ -100,9 +82,16 @@ const MyTweet = ({ activity, fetchDate }) => {
             <div className="p-4">
 
                 <div className='relative'>
-                    <div onClick={() => setToggle((!toggle && activity._id))} className='text-center pb-2 flex justify-end'>
-                        <span className='text-center p-2 align-middle bg-slate-600 cursor-pointer hover:bg-slate-700 rounded-full '><BsThreeDots /></span>
-                    </div>
+
+                    {
+                        admin || path == '/profile' ?
+                            <div onClick={() => setToggle((!toggle && activity._id))} className='text-center pb-2 w-fit ml-auto flex justify-end'>
+                                <span className='text-center p-2 align-middle bg-slate-600 cursor-pointer hover:bg-slate-700 rounded-full '><BsThreeDots /></span>
+                            </div>
+                            : ""
+                    }
+
+
                     {/* update and delete UI  */}
 
                     {
@@ -119,8 +108,8 @@ const MyTweet = ({ activity, fetchDate }) => {
 
                     {/* update and delete  UI */}
                 </div>
-
-                <hr className='pb-5' />
+                <span className='my-5'>{activity?.email}</span>
+                <hr className='p-5' />
                 <p>{activity.desc}</p>
 
                 <hr className='mt-5' />

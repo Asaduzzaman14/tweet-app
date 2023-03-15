@@ -4,6 +4,8 @@ import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import RequirAuth from "../pages/Auth/RequirAuth";
 import About from "../pages/Main/About";
+import Admins from "../pages/Main/Admins";
+import AllTweet from "../pages/Main/AllTweet";
 import AllUsers from "../pages/Main/AllUsers";
 import Blog from "../pages/Main/Blog";
 import Home from "../pages/Main/Home";
@@ -16,7 +18,11 @@ const routes = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element: <Home />
+                element: (
+                    <RequirAuth>
+                        <Home />
+                    </RequirAuth>
+                ),
             },
             {
                 path: "about",
@@ -36,7 +42,12 @@ const routes = createBrowserRouter([
             },
             {
                 path: "profile",
-                element: <Profile />,
+                element: (
+                    <RequirAuth>
+                        <Profile />,
+                    </RequirAuth>
+                ),
+
             },
             {
                 path: "login",
@@ -45,6 +56,14 @@ const routes = createBrowserRouter([
             {
                 path: "register",
                 element: <Register />,
+            },
+            {
+                path: "admins",
+                element: <Admins />,
+            },
+            {
+                path: "allTweet",
+                element: <AllTweet />,
             },
         ]
     }

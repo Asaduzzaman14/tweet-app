@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCreateUserWithEmailAndPassword, useSendEmailVerification, useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
@@ -30,6 +30,7 @@ const Register = () => {
 
         signInError = <small className='text-red-500'>{error?.message || googleError?.message}</small>
     }
+
     if (token) {
         navigate('/');
     }
@@ -37,8 +38,8 @@ const Register = () => {
 
     const onSubmit = async data => {
         await createUserWithEmailAndPassword(data.email, data.password)
-        await sendEmailVerification()
         await updateProfile({ displayName: data.name })
+        await sendEmailVerification()
 
     };
 
