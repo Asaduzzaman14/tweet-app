@@ -12,7 +12,7 @@ const AllTweet = () => {
 
 
     const fetchDate = () => {
-        fetch(`http://localhost:5000/tweets`)
+        fetch(`https://tweet-app-server.vercel.app/tweets`)
             .then(res => res.json())
             .then(data => setActivitys(data.reverse()))
     }
@@ -29,7 +29,7 @@ const AllTweet = () => {
         }).then((willDelete) => {
             if (willDelete) {
                 axios
-                    .delete(`http://localhost:5000/deleteTweet/${id}`)
+                    .delete(`https://tweet-app-server.vercel.app/deleteTweet/${id}`)
                     .then((res) => {
                         if (res.status === 200) {
                             fetchDate()

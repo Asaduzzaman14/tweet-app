@@ -23,7 +23,7 @@ const UpdatePost = ({ activity }) => {
         }
         console.log(newTweet);
 
-        fetch('http://localhost:5000/tweet', {
+        fetch('https://tweet-app-server.vercel.app/tweet', {
             "method": "PATCH",
             headers: {
                 'Content-type': 'application/json',

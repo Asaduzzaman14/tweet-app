@@ -25,7 +25,7 @@ const MyTweet = ({ activity, fetchDate }) => {
             email: user?.email
         }
 
-        fetch(`http://localhost:5000/like/${id}`, {
+        fetch(`https://tweet-app-server.vercel.app/like/${id}`, {
             "method": "PUT",
             headers: {
                 'Content-type': 'application/json',
@@ -50,7 +50,7 @@ const MyTweet = ({ activity, fetchDate }) => {
         }).then((willDelete) => {
             if (willDelete) {
                 axios
-                    .delete(`http://localhost:5000/deleteTweet/${id}`)
+                    .delete(`https://tweet-app-server.vercel.app/deleteTweet/${id}`)
                     .then((res) => {
                         if (res.status === 200) {
                             fetchDate()
@@ -88,7 +88,7 @@ const MyTweet = ({ activity, fetchDate }) => {
                             <div onClick={() => setToggle((!toggle && activity._id))} className='text-center pb-2 w-fit ml-auto flex justify-end'>
                                 <span className='text-center p-2 align-middle bg-slate-600 cursor-pointer hover:bg-slate-700 rounded-full '><BsThreeDots /></span>
                             </div>
-                            : ""
+                            : " "
                     }
 
 

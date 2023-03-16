@@ -10,7 +10,7 @@ const useAdmin = (user) => {
     useEffect(() => {
         const email = user?.email;
         if (email) {
-            fetch(`http://localhost:5000/admin/${email}`, {
+            fetch(`https://tweet-app-server.vercel.app/admin/${email}`, {
                 method: "GET",
 
             })

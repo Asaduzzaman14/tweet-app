@@ -6,7 +6,7 @@ import Loading from '../../components/Loading';
 
 const Admins = () => {
     const { data: users, isLoading, refetch } = useQuery('users', () =>
-        fetch('http://localhost:5000/user', {
+        fetch('https://tweet-app-server.vercel.app/user', {
             method: 'GET',
             headers: {
                 authorization: `Bearer ${localStorage.getItem('accessToken')}`

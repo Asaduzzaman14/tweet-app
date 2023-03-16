@@ -26,7 +26,7 @@ const AddPost = () => {
         }
         console.log(newTweet);
 
-        fetch('http://localhost:5000/tweet', {
+        fetch('https://tweet-app-server.vercel.app/tweet', {
             "method": "POST",
             headers: {
                 'Content-type': 'application/json',

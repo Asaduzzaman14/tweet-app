@@ -2,20 +2,34 @@ import React, { useEffect, useState } from 'react';
 import AddPost from '../../components/AddPost';
 import profile from '../../assets/profile.jpg'
 import MyTweet from '../../components/MyTweet';
+import Loading from '../../components/Loading';
+import { useQuery } from 'react-query';
 
 const Home = () => {
 
-    const [allPosts, setAllPosts] = useState([])
+    // const [allPosts, setAllPosts] = useState([])
 
-    const fetchDate = () => {
-        fetch('http://localhost:5000/tweets')
-            .then(res => res.json())
-            .then(data => setAllPosts(data.reverse()))
+    // const fetchDate = () => {
+    //     fetch('https://tweet-app-server.vercel.app/tweets')
+    //         .then(res => res.json())
+    //         .then(data => setAllPosts(data.reverse()))
+    // }
+
+    // useEffect(() => {
+    //     fetchDate()
+    // }, [!allPosts])
+
+
+
+    const { data: allPosts, isLoading, refetch } = useQuery('users', () => fetch('https://tweet-app-server.vercel.app/tweets', {
+        method: 'GET',
+        headers: {
+            authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+    }).then(res => res.json()));
+    if (isLoading) {
+        return <Loading></Loading>
     }
-
-    useEffect(() => {
-        fetchDate()
-    }, [])
 
 
     return (
@@ -33,7 +47,7 @@ const Home = () => {
                                 <MyTweet
                                     key={activity._id}
                                     activity={activity}
-                                    fetchDate={fetchDate}
+                                    fetchDate={refetch}
                                 ></MyTweet>
 
                             )
